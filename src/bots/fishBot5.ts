@@ -40,13 +40,15 @@ class Bot {
         }
 
 
-        while (this.dynamiteCount < 100){
+        while (this.dynamiteCount < 100 && gamestate.rounds.length < 2500){
             // if behind
-            let moveNumber = getRandomMove(4);
-            if (moveNumber == 3){
-                this.dynamiteCount ++;
+            if (this.scores[0] * 1.1 < this.scores[1]) {
+                let moveNumber = getRandomMove(4);
+                if (moveNumber == 3) {
+                    this.dynamiteCount++;
+                }
+                return moves[moveNumber];
             }
-            return moves[moveNumber];
         }
 
         // after dynamite runs out, only randomise first 4 moves
