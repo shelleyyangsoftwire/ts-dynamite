@@ -5,8 +5,10 @@ import { Gamestate, BotSelection } from '../models/gamestate';
 class Bot {
     // dynamite count
     public dynamiteCount :number;
+
     public constructor() {
         this.dynamiteCount = 0;
+
     }
 
 
