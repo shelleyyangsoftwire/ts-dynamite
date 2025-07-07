@@ -1,6 +1,6 @@
 import { Gamestate, BotSelection } from '../models/gamestate';
 
-// this bot includes water bombs, but stops using them after the opponent runs out
+// improvement upon fishBot 3 -- reduce waterbomb usage to 50%
 
 class Bot {
     // dynamite count
@@ -10,7 +10,7 @@ class Bot {
     public constructor() {
         this.dynamiteCount = 0;
         this.oppDynamiteCount = 0;
-        this.moves  = ['W', 'R', 'P', 'S', 'D'];
+        this.moves  = ['D', 'R', 'P', 'S', 'W'];
     }
 
     makeMove(gamestate: Gamestate): BotSelection {
@@ -22,8 +22,8 @@ class Bot {
 
         // remove dynamite from available moves
         if (this.dynamiteCount == 100){
-            this.moves.pop();
-            this.dynamiteCount = 0;
+            this.moves.shift();
+            this.dynamiteCount++;
         }
 
         // remove water from available moves
@@ -31,16 +31,28 @@ class Bot {
             this.oppDynamiteCount ++;
         }
         if (this.oppDynamiteCount == 100){
-            this.moves.shift();
-            this.oppDynamiteCount = 0;
+            this.moves.pop();
+            this.oppDynamiteCount++;
         }
 
         // get available moves
-
         let moveNumber  = getRandomMove(this.moves.length);
         thisMove = this.moves[moveNumber];
         if (thisMove == 'D'){
             this.dynamiteCount ++;
+        }
+
+        // sometimes drop W
+        if (thisMove == 'W'){
+            // 50% chance of dropping the W and picking something else
+            let random = Math.floor(Math.random() * (2));
+            console.log(random);
+            if (random == 0){
+                console.log('w dropped');
+                // function to drop W
+                moveNumber  = getRandomMove(this.moves.length - 1);
+                thisMove = this.moves[moveNumber];
+            }
         }
 
         return thisMove;
